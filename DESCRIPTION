@@ -1,7 +1,7 @@
 Package: CERMBweather
 Title: Functions to query BOM weather station data in a PostgreSQL database
-Version: 0.3.0
-Date: 2020-11-13
+Version: 0.3.1
+Date: 2020-11-16
 Authors@R: c(
   person("Hamish", "Clarke", email = "hamishc@uow.edu.au", role = c("aut")),
   person("Michael", "Bedward", email = "michael.bedward@gmail.com", role = c("aut", "cre")) )
@@ -14,7 +14,9 @@ Imports: DBI,
   dplyr,
   glue,
   lubridate,
+  magrittr,
   pool,
+  rlang,
   RPostgres,
   stringr
 Encoding: UTF-8
@@ -23,4 +25,4 @@ RoxygenNote: 7.1.1
 Suggests: 
     knitr,
     rmarkdown
-VignetteBuilder: knitr
+License: MIT

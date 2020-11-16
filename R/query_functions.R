@@ -32,6 +32,8 @@
 #' @return A data frame with columns: station, date_rain (09:01 - 09:00 local
 #'   time), precip_daily.
 #'
+#' @importFrom rlang .data
+#'
 #' @export
 #'
 bom_db_get_daily_rainfall <- function(db,
@@ -62,7 +64,7 @@ bom_db_get_daily_rainfall <- function(db,
     stop("Unknown table name: ", the.table) )
 
   # Clause to select station(s).
-  stations <- na.omit(stations)
+  stations <- stats::na.omit(stations)
   stations_clause <- glue::glue("station IN ({paste(stations, collapse = ', ')})")
 
   # If there are a lot of stations but the IDs are contiguous,
@@ -118,9 +120,10 @@ bom_db_get_daily_rainfall <- function(db,
     res <- pool::dbGetQuery(db, cmd)
 
     if (crop) {
+      # Note: using .data keyword to avoid R package check errors
       res <- res %>%
-        dplyr::group_by(station) %>%
-        dplyr::filter(date_rain > min(date_rain)) %>%
+        dplyr::group_by(.data$station) %>%
+        dplyr::filter(.data$date_rain > min(.data$date_rain)) %>%
         dplyr::ungroup()
     }
 

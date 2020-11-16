@@ -17,7 +17,7 @@
            })
 
   tbls <- tolower(pool::dbListTables(db))
-  Expected <- c("aws", "synoptic")
+  Expected <- c("aws", "synoptic", "stations")
   found <- Expected %in% tbls
 
   if (any(!found)) {
@@ -28,22 +28,6 @@
     msg2 <- paste(Expected[!found], collapse=", ")
     msg <- glue::glue("Database is missing {msg1} {msg2}")
     stop(msg)
-  }
-}
-
-
-# Checks if the 'Stations' table is present and, if not, creates
-# and populates it. We assume that the db connection is valid.
-.ensure_stations_table <- function(db) {
-  tbls <- tolower(pool::dbListTables(db))
-  found <- "stations" %in% tbls
-  if (!found) {
-    message("Adding Stations table to database")
-
-    pool::poolWithTransaction(db, function(conn) {
-      DBI::dbExecute(conn, SQL_CREATE_TABLES$create_stations_table)
-      DBI::dbAppendTable(conn, "Stations", CERMBweather::STATION_METADATA)
-    })
   }
 }
 

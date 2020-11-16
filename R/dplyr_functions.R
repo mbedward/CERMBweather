@@ -1,4 +1,4 @@
-#' Gets a \code{tbl} object for AWS data to use with dplyr functions
+#' Get a \code{tbl} object for AWS data to use with dplyr functions
 #'
 #' This function takes an open connection to a database and returns a dplyr
 #' \code{tbl} object for AWS data to use with dplyr functions.
@@ -50,7 +50,7 @@ bom_db_aws <- function(db) {
 }
 
 
-#' Gets a \code{tbl} object for synoptic data to use with dplyr functions
+#' Get a \code{tbl} object for synoptic data to use with dplyr functions
 #'
 #' This function takes an open connection to a database and returns a dplyr
 #' \code{tbl} object for synoptic data to use with dplyr functions.

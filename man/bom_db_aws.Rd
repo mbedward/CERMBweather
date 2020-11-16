@@ -2,7 +2,7 @@
 % Please edit documentation in R/dplyr_functions.R
 \name{bom_db_aws}
 \alias{bom_db_aws}
-\title{Gets a \code{tbl} object for AWS data to use with dplyr functions}
+\title{Get a \code{tbl} object for AWS data to use with dplyr functions}
 \usage{
 bom_db_aws(db)
 }
