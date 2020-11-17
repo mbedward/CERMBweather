@@ -2,6 +2,7 @@
 
 export("%>%")
 export(bom_db_aws)
+export(bom_db_dir_summary)
 export(bom_db_extract_station_numbers)
 export(bom_db_get_daily_rainfall)
 export(bom_db_get_file_name)
