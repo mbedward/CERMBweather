@@ -1,7 +1,7 @@
 Package: CERMBweather
 Title: Functions to query BOM weather station data in a PostgreSQL database
 Version: 0.3.1
-Date: 2020-11-16
+Date: 2020-12-09
 Authors@R: c(
   person("Hamish", "Clarke", email = "hamishc@uow.edu.au", role = c("aut")),
   person("Michael", "Bedward", email = "michael.bedward@gmail.com", role = c("aut", "cre")) )
