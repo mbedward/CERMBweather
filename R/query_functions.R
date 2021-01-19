@@ -163,15 +163,15 @@ bom_db_get_station_dates <- function(db, the.table, dry.run = FALSE) {
   the.table <- match.arg(tolower(the.table), choices = c("aws", "synoptic"))
 
   # lateral query template
-  cmd0 <- glue::glue("SELECT l.station, l.date_local as {{field.name}}
+  cmd0 <- glue::glue("SELECT station, date_local as {{field.name}}
                      FROM
                        {the.table}_stations s,
                        LATERAL (
-                        SELECT station, date_local
+                        SELECT date_local
                         FROM {the.table}
                         WHERE station = s.station  -- lateral reference
-                        ORDER BY date_local {{asc.desc}}
-                        LIMIT 1
+                        ORDER BY date_local {{asc.desc}}  -- order by date
+                        LIMIT 1  -- only return earliest or latest date
                        ) l")
 
   # Separate earliest and latest date queries
