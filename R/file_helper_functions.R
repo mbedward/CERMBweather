@@ -1,21 +1,24 @@
 #' Convert raw BOM weather station data into a standard format
 #'
 #' This function takes a data frame of records read from a BOM weather station
-#' data file (either AWS or synoptic) and reformats it to the column names and
-#' data types used in the PostgreSQL weather database. BOM data files use
-#' extremely long column names with slight differences between AWS and synoptic
-#' data. The input year, month, and day columns for local and standard time are
-#' combined into a date_local and date_standard columns. The input hour and
+#' data file, either AWS, synoptic (half-hourly) or upper air, and reformats it
+#' to the column names and data types used in the PostgreSQL weather database.
+#' BOM data files use extremely long column names with slight differences
+#' between data types. The mapping of input column names to standard names is
+#' defined in the lookup table \code{COLUMN_LOOKUP} that is part of this
+#' package. The input year, month, and day columns for local and standard time
+#' are combined into a date_local and date_standard columns. The input hour and
 #' minute columns for local and standard time are kept separate as: hour_local,
-#' hour_standard, min_local and min_standard. The mapping of input column names
-#' to standard names is defined in the lookup table \code{COLUMN_LOOKUP} that is
-#' part of this package.
+#' hour_standard, min_local and min_standard. Any columns for UTC (GMT) dates
+#' and times, e.g. for Antarctic station data, are ignored. For upper air data,
+#' if the 'level type' column contains text values ('normal' or 'tropopause')
+#' there are coded as 0 (normal) and 1 (tropopause).
 #'
 #' @param dat.raw A data frame of records in raw BOM weather station data format.
 #'
 #' @return A data frame in the standard format used with the CERMB PostgreSQL
-#'   weather database, with the attribute \code{'datatype'} set to either 'aws'
-#'   or 'synoptic'.
+#'   weather database, with the attribute \code{'datatype'} set to either 'aws',
+#'   'synoptic' or 'upperair'.
 #'
 #' @importFrom rlang .data
 #'
@@ -25,7 +28,11 @@ bom_db_tidy_data <- function(dat.raw) {
 
   cnames <- tolower(colnames(dat.raw))
 
-  if (any(stringr::str_detect(cnames, "maximum.windgust|aws.flag"))) {
+  # Attempt to determine data type from column names
+  #
+  if (any(grepl("geopotential|level.type", cnames))) {
+    type <- "upperair"
+  } else if (any(grepl("maximum.windgust|aws.flag", cnames))) {
     type <- "aws"
   } else {
     type <- "synoptic"
@@ -54,6 +61,35 @@ bom_db_tidy_data <- function(dat.raw) {
                   date_std = sprintf("%4d-%02d-%02d",
                                      .data$year_std, .data$month_std, .data$day_std))
 
+  # If this is upper air data, convert any text values in the level.type column to
+  # integer codes: 0 (normal) or 1 (tropopause)
+  if (type == "upperair") {
+    x <- tolower(dat$level_type) %>%
+      stringr::str_replace("normal", "0") %>%
+      stringr::str_replace("tropopause", "1")
+
+    # Check for any other values
+    ii <- stringr::str_length(x) > 0 & !(x %in% c("0", "1"))
+    if (any(ii)) {
+      stop("Unrecognized values for level type in upper air data: ", unique(x[ii]))
+    }
+
+    # If all is well, convert column values back to integer codes
+    dat$level_type <- as.integer(x)
+  }
+
+  # Remove any space-only values from the *_quality text variables
+  fn_blank_quality <- function(q) {
+    q <- stringr::str_trim(q)
+    q[q == ""] <- NA_character_
+    q
+  }
+
+  dat <- dat %>%
+    dplyr::mutate(dplyr::across(dplyr::ends_with("quality"), fn_blank_quality))
+
+
+  # Subset to the required columns
   dat <- dat[, stats::na.omit(lookup$dbcolname)]
 
   attr(dat, "datatype") <- type
