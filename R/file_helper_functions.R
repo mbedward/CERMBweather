@@ -65,6 +65,7 @@ bom_db_tidy_data <- function(dat.raw) {
   # integer codes: 0 (normal) or 1 (tropopause)
   if (type == "upperair") {
     x <- tolower(dat$level_type) %>%
+      stringr::str_trim(.) %>%
       stringr::str_replace("normal", "0") %>%
       stringr::str_replace("tropopause", "1")
 
