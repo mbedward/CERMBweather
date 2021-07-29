@@ -91,7 +91,24 @@ bom_db_tidy_data <- function(dat.raw) {
 
 
   # Subset to the required columns
-  dat <- dat[, stats::na.omit(lookup$dbcolname)]
+  cols_subset <- stats::na.omit(lookup$dbcolname)
+  found <- cols_subset %in% colnames(dat)
+  if (any(!found)) {
+    # Add missing columns and set all rows to NA
+    xlen <- nrow(dat)
+    xnames <- cols_subset[!found]
+    xtypes <- lookup$dbcoltype[lookup$dbcolname %in% xnames]
+    xcols <- lapply(1:length(xnames), function(i) {
+      switch(xtypes[i],
+             integer = rep(NA_integer_, xlen),
+             numeric = rep(NA_real_, xlen),
+             character = rep(NA_character_, xlen))
+    })
+    names(xcols) <- xnames
+    xdat <- as.data.frame(xcols)
+    dat <- cbind(dat, xdat)
+  }
+  dat <- dat[, cols_subset]
 
   attr(dat, "datatype") <- type
 

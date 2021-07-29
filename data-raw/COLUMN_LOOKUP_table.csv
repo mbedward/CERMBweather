@@ -69,7 +69,7 @@
 "air.temperature.in.degrees.c","upperair","temperature","temperature","numeric"
 "quality.of.air.temperature","upperair","temperature_quality","temperature_quality","character"
 "dew.point.temperature.in.degrees.c","upperair","dewpoint_temperature","dewpoint_temperature","numeric"
-"quality.of.dew.point.temperature","upperair","dewpoint_temperature_quality","dewpoint_temperature_quality",NA
+"quality.of.dew.point.temperature","upperair","dewpoint_temperature_quality","dewpoint_temperature_quality","character"
 "relative.humidity.in.percentage..","upperair","relhumidity","relhumidity","numeric"
 "quality.of.relative.humidity","upperair","relhumidity_quality","relhumidity_quality","character"
 "wind.speed.measured.in.km.h","upperair","windspeed","windspeed","numeric"
