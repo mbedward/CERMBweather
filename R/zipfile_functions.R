@@ -14,7 +14,7 @@
 #'
 #' @export
 #'
-bom_db_zip_summary <- function(zipfile, include = c("data", "all", "empty")) {
+bom_zip_summary <- function(zipfile, include = c("data", "all", "empty")) {
   include <- match.arg(include)
 
   files <- utils::unzip(zipfile, list = TRUE)
@@ -36,7 +36,7 @@ bom_db_zip_summary <- function(zipfile, include = c("data", "all", "empty")) {
   filename <- files[["Name"]][ii]
 
   # Station IDs
-  station <- bom_db_extract_station_numbers(filename)
+  station <- bom_extract_station_numbers(filename)
 
   data.frame(station, filename, filesize = files[["Length"]][ii],
              stringsAsFactors = FALSE)
@@ -65,16 +65,16 @@ bom_db_zip_summary <- function(zipfile, include = c("data", "all", "empty")) {
 #'
 #' @export
 #'
-bom_db_zip_data <- function(zipfile,
+bom_zip_data <- function(zipfile,
                             stations,
                             allow.missing = TRUE,
                             out.format = c("list", "single")) {
 
   out.format <- match.arg(out.format)
 
-  stn.info <- bom_db_zip_summary(zipfile)
+  stn.info <- bom_zip_summary(zipfile)
 
-  id <- bom_db_station_id(stations)
+  id <- bom_station_id(stations)
 
   ii <- match(id, stn.info[["station"]])
   if (anyNA(ii)) {
@@ -97,7 +97,7 @@ bom_db_zip_data <- function(zipfile,
                 function(fname) {
                   zcon <- unz(zipfile, fname)
                   dat <- utils::read.csv(zcon, stringsAsFactors = FALSE)
-                  bom_db_tidy_data(dat)
+                  bom_tidy_data(dat)
                 })
 
   if (out.format == "list") {

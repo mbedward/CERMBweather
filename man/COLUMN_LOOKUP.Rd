@@ -5,18 +5,18 @@
 \alias{COLUMN_LOOKUP}
 \title{Lookup table to relate BOM data file column names to standard names}
 \format{
-An object of class \code{data.frame} with 49 rows and 5 columns.
+An object of class \code{data.frame} with 83 rows and 5 columns.
 }
 \usage{
 COLUMN_LOOKUP
 }
 \description{
-This data frame is used by function \code{bom_db_tidy_data} to relate the
+This data frame is used by function \code{bom_tidy_data} to relate the
 long field names used in BOM data files for AWS and synoptic weather stations
 to the shorter column names used within this package and the CERMB PostgreSQL
 weather database.
 }
 \seealso{
-\code{\link{bom_db_tidy_data}}
+\code{\link{bom_tidy_data}}
 }
 \keyword{datasets}

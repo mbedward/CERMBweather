@@ -37,12 +37,12 @@
 #' @export
 #'
 bom_db_get_daily_rainfall <- function(db,
-                                the.table,
-                                stations,
-                                crop = TRUE,
-                                start.date = NULL,
-                                end.date = NULL,
-                                dry.run = FALSE) {
+                                      the.table,
+                                      stations,
+                                      crop = TRUE,
+                                      start.date = NULL,
+                                      end.date = NULL,
+                                      dry.run = FALSE) {
 
   if (!dry.run) .ensure_connection(db)
 

@@ -24,7 +24,7 @@
 #'
 #' @export
 #'
-bom_db_tidy_data <- function(dat.raw) {
+bom_tidy_data <- function(dat.raw) {
 
   cnames <- tolower(colnames(dat.raw))
 
@@ -155,7 +155,7 @@ bom_db_tidy_data <- function(dat.raw) {
 #'
 #' @export
 #'
-bom_db_extract_station_numbers <- function(filenames) {
+bom_extract_station_numbers <- function(filenames) {
   x <- stringr::str_extract(filenames, "_Data_\\d+")
   stringr::str_extract(x, "\\d+")
 }
@@ -180,11 +180,11 @@ bom_db_extract_station_numbers <- function(filenames) {
 #'
 #' @examples
 #' # This will return the vector c("067105", "067108")
-#' bom_db_station_id(c(67105, 67108))
+#' bom_station_id(c(67105, 67108))
 #'
 #' @export
 #'
-bom_db_station_id <- function(ids) {
+bom_station_id <- function(ids) {
   if (is.numeric(ids)) {
     ids <- sprintf("%06d", ids)
   }
@@ -211,25 +211,9 @@ bom_db_station_id <- function(ids) {
 #'
 #' @export
 #'
-bom_db_is_zip_file <- function(filenames) {
+bom_is_zip_file <- function(filenames) {
   path <- stringr::str_trim(filenames)
   stringr::str_detect(tolower(filenames), "\\.zip$")
 }
 
-
-#' Extract file names from full file paths
-#'
-#' This is a helper used by other package functions. It extracts the
-#' file name part of each full path in the \code{paths} argument.
-#'
-#' @param paths A character vector of one or more file paths.
-#'
-#' @return A vector of file names
-#'
-#' @export
-#'
-bom_db_get_file_name <- function(paths) {
-  x <- stringr::str_split(paths, "[\\\\/]+")
-  sapply(x, utils::tail, 1)
-}
 

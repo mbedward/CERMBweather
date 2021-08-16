@@ -23,9 +23,9 @@
 #'
 #' @export
 #'
-bom_db_dir_summary <- function(path,
-                               pattern = "_Data_\\d{6}_.*txt$",
-                               include = c("data", "all", "empty")) {
+bom_dir_summary <- function(path,
+                            pattern = "_Data_\\d{6}_.*txt$",
+                            include = c("data", "all", "empty")) {
 
   include <- match.arg(include)
 
@@ -37,7 +37,7 @@ bom_db_dir_summary <- function(path,
 
   sizes <- file.size(filepaths)
 
-  station <- CERMBweather::bom_db_extract_station_numbers(files)
+  station <- CERMBweather::bom_extract_station_numbers(files)
 
   dat <- data.frame(station, filename = files, filesize = sizes,
                     stringsAsFactors = FALSE)
