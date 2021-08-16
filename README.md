@@ -1,16 +1,15 @@
 # CERMBweather
 
-A package of functions to query weather station data held in a PostgreSQL 
-database. The package is developed for use by the Centre for Environmental 
-Risk Management of Bushfires, University of Wollongong (Australia). The 
-package functions make it easier for users to run involved queries without
-needing an in-depth knowledge of SQL or dplyr. Each query function has an
-option to either run the query and return the resulting data, or just 
-return SQL code composed for the query.
+A package of functions to work with weather station data files, as provided by
+the Australian Bureau of Meteorology (BOM), and query data in an associated 
+PostgreSQL database. The package is developed for use by the Centre for Environmental 
+Risk Management of Bushfires, University of Wollongong (Australia). 
 
-An associated R package with functions to manage a PostgreSQL database,
-import data provided by the Australian Bureau of Meteorology (BOM), and 
-calculate fire weather variables can be found at https://github.com/mbedward/CERMBweatheradmin.
+An associated R package with functions to manage a PostgreSQL database of
+data provided by BOM can be found at https://github.com/mbedward/CERMBweatheradmin.
+
+A further R package to calculate Forest Fire Danger Index from weather records
+can be found at https://github.com/mbedward/CERMBffdi.
 
 **Note** Feel free to look at or use the code but (a) lots of things don't
 work yet, and (b) the functions here assume a particular database
