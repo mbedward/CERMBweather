@@ -20,7 +20,8 @@
 #'
 bom_db_is_connected <- function(con) {
   DBI::dbIsValid(con) &&
-    tryCatch(DBI::dbGetQuery(con, "select TRUE;"), error = function(e) FALSE)
+    tryCatch(DBI::dbGetQuery(con, "select TRUE;")[,1], # Get bool result from returned data frame
+             error = function(e) FALSE)
 }
 
 
