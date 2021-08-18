@@ -1,3 +1,29 @@
+#' Check if a database connection is valid and open
+#'
+#' This function tests that a connection object is both valid and pointing to an
+#' open connection. R packages for working with particular databases such as
+#' \code{RPostgres} and \code{RSQLite}, as well as related higher level packages
+#' such as \code{pool} and \code{DBI}, provide a function \code{dbIsValid} to
+#' test if an object is a valid database connection. However, this function only
+#' checks that an object is of the right type (i.e. it \emph{is} a database
+#' connection object) and not that the connection is actually open, so
+#' \code{dbIsValid(mydb)} can return \code{TRUE} even if the connection has been
+#' closed or the object \code{mydb} is pointing to an incorrect database path.
+#'
+#' @param con A database connection object, e.g. created using
+#'   \code{DBI::dbConnect()} or \code{pool::dbPool()}.
+#'
+#' @return \code{TRUE} if the connection is valid and currently open;
+#'   \code{FALSE} otherwise.
+#'
+#' @export
+#'
+bom_db_is_connected <- function(con) {
+  DBI::dbIsValid(con) &&
+    tryCatch(DBI::dbGetQuery(con, "select TRUE;"), error = function(e) FALSE)
+}
+
+
 #' Get daily aggregate rainfall data
 #'
 #' @param db A database connection pool object.
