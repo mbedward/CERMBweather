@@ -11,7 +11,7 @@ bom_db_get_daily_rainfall(
   crop = TRUE,
   start.date = NULL,
   end.date = NULL,
-  dry.run = FALSE
+  sql.only = FALSE
 )
 }
 \arguments{
@@ -39,7 +39,7 @@ either a \code{Date} object or a character string in the format
 \code{yyyy-mm-dd}. The default is to end with the latest data for each
 station.}
 
-\item{dry.run}{If \code{TRUE}, the function returns the SQL code for the
+\item{sql.only}{If \code{TRUE}, the function returns the SQL code for the
 query but does not run it. This can be useful if you want to further
 modify the query. If \code{FALSE} (default), the function runs the query
 and returns the resulting data.}

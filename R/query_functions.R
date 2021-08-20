@@ -51,7 +51,7 @@ bom_db_is_connected <- function(con) {
 #'   \code{yyyy-mm-dd}. The default is to end with the latest data for each
 #'   station.
 #'
-#' @param dry.run If \code{TRUE}, the function returns the SQL code for the
+#' @param sql.only If \code{TRUE}, the function returns the SQL code for the
 #'   query but does not run it. This can be useful if you want to further
 #'   modify the query. If \code{FALSE} (default), the function runs the query
 #'   and returns the resulting data.
@@ -69,9 +69,9 @@ bom_db_get_daily_rainfall <- function(db,
                                       crop = TRUE,
                                       start.date = NULL,
                                       end.date = NULL,
-                                      dry.run = FALSE) {
+                                      sql.only = FALSE) {
 
-  if (!dry.run) .ensure_connection(db)
+  if (!sql.only) .ensure_connection(db)
 
   if (!(is.numeric(stations) && length(stations) > 0)) {
     stop("stations arg should be a vector of integer station IDs")
@@ -139,7 +139,7 @@ bom_db_get_daily_rainfall <- function(db,
     GROUP BY station, date_rain
     ORDER BY station, date_rain;")
 
-  if (dry.run) {
+  if (sql.only) {
     # Just return composed query text
     cmd
   } else {
@@ -175,7 +175,7 @@ bom_db_get_daily_rainfall <- function(db,
 #' @param the.table The table to query: either 'aws' or 'synoptic'
 #'   (may be abbreviated).
 #'
-#' @param dry.run If \code{TRUE}, the function returns the SQL code for the
+#' @param sql.only If \code{TRUE}, the function returns the SQL code for the
 #'   query but does not run it. This can be useful if you want to further
 #'   modify the query. If \code{FALSE} (default), the function runs the query
 #'   and returns the resulting data.
@@ -184,8 +184,8 @@ bom_db_get_daily_rainfall <- function(db,
 #'
 #' @export
 #'
-bom_db_get_station_dates <- function(db, the.table, dry.run = FALSE) {
-  if (!dry.run) .ensure_connection(db)
+bom_db_get_station_dates <- function(db, the.table, sql.only = FALSE) {
+  if (!sql.only) .ensure_connection(db)
 
   the.table <- match.arg(tolower(the.table), choices = c("aws", "synoptic"))
 
@@ -217,7 +217,7 @@ bom_db_get_station_dates <- function(db, the.table, dry.run = FALSE) {
                          ON early.station = late.station
                          ORDER BY early.station;")
 
-  if (dry.run) {
+  if (sql.only) {
     # Just return composed query text
     cmd.full
   } else {

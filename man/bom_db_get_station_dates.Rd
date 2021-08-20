@@ -4,7 +4,7 @@
 \alias{bom_db_get_station_dates}
 \title{Get first and last record dates for stations}
 \usage{
-bom_db_get_station_dates(db, the.table, dry.run = FALSE)
+bom_db_get_station_dates(db, the.table, sql.only = FALSE)
 }
 \arguments{
 \item{db}{A database connection pool object.}
@@ -12,7 +12,7 @@ bom_db_get_station_dates(db, the.table, dry.run = FALSE)
 \item{the.table}{The table to query: either 'aws' or 'synoptic'
 (may be abbreviated).}
 
-\item{dry.run}{If \code{TRUE}, the function returns the SQL code for the
+\item{sql.only}{If \code{TRUE}, the function returns the SQL code for the
 query but does not run it. This can be useful if you want to further
 modify the query. If \code{FALSE} (default), the function runs the query
 and returns the resulting data.}
