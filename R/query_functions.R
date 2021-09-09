@@ -134,7 +134,10 @@ bom_db_get_daily_rainfall <- function(db,
         END
         AS date_rain
       FROM {the.table}
-      WHERE {stations_clause} {start_clause} {end_clause}) AS sub_daily
+      WHERE {stations_clause}
+        {start_clause}
+        {end_clause}
+    ) AS sub_daily
 
     GROUP BY station, date_rain
     ORDER BY station, date_rain;")
