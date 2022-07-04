@@ -7,7 +7,7 @@
 bom_db_get_station_dates(db, the.table, sql.only = FALSE)
 }
 \arguments{
-\item{db}{A database connection pool object.}
+\item{db}{A database connection object.}
 
 \item{the.table}{The table to query: either 'aws' or 'synoptic'
 (may be abbreviated).}
