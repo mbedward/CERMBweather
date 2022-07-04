@@ -15,7 +15,7 @@ bom_db_get_daily_rainfall(
 )
 }
 \arguments{
-\item{db}{A database connection pool object.}
+\item{db}{A database connection object.}
 
 \item{the.table}{The table to query: either 'aws' or 'synoptic'
 (may be abbreviated).}

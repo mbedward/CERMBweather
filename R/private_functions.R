@@ -1,6 +1,6 @@
 ###### Private (non exported) functions and variables
 
-# Checks that an object is a valid database connection (pool object) and
+# Checks that an object is a valid database connection and
 # that the expected weather data tables are present
 .ensure_connection <- function(db) {
   if (!bom_db_is_connected(db)) stop("Database connection is closed or invalid")

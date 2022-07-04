@@ -27,7 +27,7 @@ bom_db_is_connected <- function(con) {
 
 #' Get daily aggregate rainfall data
 #'
-#' @param db A database connection pool object.
+#' @param db A database connection object.
 #'
 #' @param the.table The table to query: either 'aws' or 'synoptic'
 #'   (may be abbreviated).
@@ -144,7 +144,7 @@ bom_db_get_daily_rainfall <- function(db,
     cmd
   } else {
     # Run query and return data
-    res <- pool::dbGetQuery(db, cmd)
+    res <- DBI::dbGetQuery(db, cmd)
 
     if (crop) {
       # Note: using .data keyword to avoid R package check errors
@@ -170,7 +170,7 @@ bom_db_get_daily_rainfall <- function(db,
 #' on the date_local field. The approach is adapted from an example (number 5)
 #' in \href{https://stackoverflow.com/a/34715134/40246}{this StackOverflow answer.}
 #'
-#' @param db A database connection pool object.
+#' @param db A database connection object.
 #'
 #' @param the.table The table to query: either 'aws' or 'synoptic'
 #'   (may be abbreviated).
@@ -222,7 +222,7 @@ bom_db_get_station_dates <- function(db, the.table, dry.run = FALSE) {
     cmd.full
   } else {
     # Run query and return data
-    pool::dbGetQuery(db, cmd.full)
+    DBI::dbGetQuery(db, cmd.full)
   }
 }
 
